@@ -45,7 +45,8 @@ function Food() {
     this.position = {
         x : -1,         //outside of the field
         y : -1
-    }
+    };
+    this.randomGenerate();
 }
 Food.prototype.update = function (newPos) {
     this.drawer.drawFood(newPos);
@@ -59,7 +60,12 @@ Food.prototype.randomGenerate = function() {
     if ((newPos.x == this.position.x) && (newPos.y == this.position.y)) {
         this.randomGenerate();
     }
-    // ------------------need to add check not on snake--------------------
+    // ------------------need to add check not on snake--------------------??
+    for (var i = 0; i < snake.snakeBody.length; i++) {
+        if ((newPos.x == snake.snakeBody[i].x) && (newPos.y == snake.snakeBody[i].y)) {
+            this.randomGenerate();
+        }
+    }
     self.update(newPos);
     this.position.x = newPos.x;
     this.position.y = newPos.y;
@@ -72,7 +78,7 @@ function Snake() {
 
     this.snakeBody = [
         {x: defaultPosX, y: defaultPosY - 1},
-        {x: defaultPosX, y: defaultPosY},
+        {x: defaultPosX, y: defaultPosY}
     ];
     this.ROUTE = {
         UP: 2,
@@ -85,15 +91,14 @@ function Snake() {
 }
 Snake.prototype.setRoute = function (value) {
     this.route = this.ROUTE[value];
-}
+};
 Snake.prototype.update = function (snakeBody) {
-
     this.drawer.drawSnake(snakeBody);
 };
 
 /*--------------------------------------end of logic------------------------------------------*/
 var game = new Game();
 game.drawer.drawCanvasField();
-var food = new Food();
-food.randomGenerate();
 var snake = new Snake();
+var food = new Food();
+
