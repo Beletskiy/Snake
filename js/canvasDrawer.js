@@ -37,9 +37,10 @@ CanvasDrawer.prototype.clearField = function() {
     this.ctx.fillStyle = "white";
     this.ctx.fillRect(0, 0, this.cellSize*this.numberOfCells, this.cellSize*this.numberOfCells);
 };
-CanvasDrawer.prototype.showStatus = function(message,score) {
+CanvasDrawer.prototype.showStatus = function(message , player1Score, player2Score) {
     this.ctx.strokeStyle = "red";
     this.ctx.font = "30px Arial";
-    this.ctx.strokeText(message, this.canvasField.width/3, this.canvasField.width/5);
-    this.ctx.strokeText("Your score - " + score, this.canvasField.width/3, this.canvasField.width/3);
+    this.ctx.strokeText(message, this.canvasField.width/3, this.canvasField.width/10);
+    this.ctx.strokeText("Player1 score - " + player1Score, this.canvasField.width/3, this.canvasField.width/5);
+    this.ctx.strokeText("Player2 score - " + player2Score, this.canvasField.width/3, this.canvasField.width/3);
 };

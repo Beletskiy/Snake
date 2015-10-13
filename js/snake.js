@@ -16,6 +16,8 @@ function Snake(game) {
     };
     this.setRoute('UP');
     this.update(this.snakeBody);
+    this.isLock = false; //
+    this.score = 0; //
 }
 Snake.prototype.setRoute = function (value) {
     this.route = this.ROUTE[value];
@@ -33,6 +35,7 @@ Snake.prototype.update = function () {
         snakeBodyLength = this.snakeBody.length,
         isOutsideX ,
         isOutsideY ,
+        hasFood = this.game.food,
         isWin = false;
 
     // update position
@@ -55,7 +58,7 @@ Snake.prototype.update = function () {
         if ((newSnakeElement.x == this.snakeBody[i].x) && (newSnakeElement.y == this.snakeBody[i].y)
         || (isOutsideX || isOutsideY)) {
             this.game.setStatus(this.game.STATUS.GAMEOVER);
-            this.drawer.showStatus("Game over", this.game.score);
+            this.game.calculateAllScores();
             this.updateSnakeArr(newSnakeElement);
             return false;
         }
@@ -63,15 +66,15 @@ Snake.prototype.update = function () {
 
     this.updateSnakeArr(newSnakeElement);
 
-    if (this.game.food) {
+    if (hasFood) {
         if ((newSnakeElement.x == this.game.food.position.x) && (newSnakeElement.y == this.game.food.position.y)) {
-            this.game.score++;
+            this.score++;
 
             // check for win
             isWin = this.addElement();
             if (isWin) {
                 this.game.setStatus(this.game.STATUS.GAMEWIN);
-                this.drawer.showStatus("You win!!! ", this.game.score);
+                this.drawer.showStatus("You win!!! ", this.score);
             } else {
                 // new food
                 this.game.food.randomGenerate();
