@@ -71,8 +71,17 @@ Game.prototype.handleInput = function () {
         }
     }
 };
-Game.prototype.calculateAllScores = function () {
-    this.drawer.showStatus("Game over", this.snake[0].score, this.snake[1].score);
+Game.prototype.createMessage = function (message) {
+    if (message == 'Game over') {
+        this.drawer.showStatus(message, this.snake[0].score, this.snake[1].score);
+        return false;
+    }
+    if (this.snake[0].score > this.snake[1].score) {
+        this.drawer.showStatus("Player1 win!", this.snake[0].score, this.snake[1].score);
+    }
+    if (this.snake[0].score < this.snake[1].score) {
+        this.drawer.showStatus("Player2 win!", this.snake[0].score, this.snake[1].score);
+    }
 };
 
 var game = new Game();

@@ -58,7 +58,7 @@ Snake.prototype.update = function () {
         if ((newSnakeElement.x == this.snakeBody[i].x) && (newSnakeElement.y == this.snakeBody[i].y)
         || (isOutsideX || isOutsideY)) {
             this.game.setStatus(this.game.STATUS.GAMEOVER);
-            this.game.calculateAllScores();
+            this.game.createMessage("Game over");
             this.updateSnakeArr(newSnakeElement);
             return false;
         }
@@ -74,7 +74,7 @@ Snake.prototype.update = function () {
             isWin = this.addElement();
             if (isWin) {
                 this.game.setStatus(this.game.STATUS.GAMEWIN);
-                this.drawer.showStatus("You win!!! ", this.score);
+                this.game.createMessage("win!!!");
             } else {
                 // new food
                 this.game.food.randomGenerate();
@@ -112,7 +112,7 @@ Snake.prototype.addElement = function() {
     this.snakeBody.push(newSnakeElement);
 
     // check on win
-    if (this.snakeBody.length == this.drawer.numberOfCells/2) {
+    if (this.snakeBody.length == this.drawer.numberOfCells/5) {
         return true;
     }
 };
