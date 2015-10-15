@@ -13,7 +13,7 @@ function Game () {
     this.snake = [];
     this.numberOfSnakes = 2;
     for (var i = 0; i < this.numberOfSnakes; i++) {
-        //this.snake.push({
+        //this.snake.push({                 player
         //    snake : new Snake(this,i),
         //    keys : [],
         //    options : {}
@@ -32,7 +32,7 @@ Game.prototype.getStatus = function() {
 
 Game.prototype.update = function() {
     if (this.getStatus() == this.STATUS.PLAY) {
-        this.drawer.clearField();
+       // this.drawer.clearField();
         this.drawer.drawField();
         for (var i = 0; i < this.numberOfSnakes; i++) {
             this.snake[i].update();

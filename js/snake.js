@@ -16,8 +16,15 @@ function Snake(game,xStartOffset) {
     };
     this.setRoute('UP');
     this.update(this.snakeBody);
-    this.isLock = false; // todo disable this
-    this.score = 0; //
+    this.isAlive = true;
+  //  this.isLock = false; // todo disable this
+    this.score = 0;
+    this.directions = {
+        UP : {x : 0, y : -1},
+        LEFT : {x : -1, y : 0},
+        DOWN : {x : 0, y : 1},
+        RIGHT : {x : 1, y : 0}
+    }
 }
 Snake.prototype.setRoute = function (value) {
     if (!value) {
@@ -68,13 +75,13 @@ Snake.prototype.update = function () {
     //    RIGHT : {x : 1, y : 0}
     //};
     //
-    //var activeDirection;
+    var activeDirection;
     ////directions = modes[activeMode]
-    //if (this.route in directions) {
-    //    activeDirection = directions[this.route];
-    //    newSnakeElement.y += activeDirection.y;
-    //    newSnakeElement.x += activeDirection.x;
-    //}
+    if (this.route in this.directions) {
+        activeDirection = this.directions[this.route];
+        newSnakeElement.y += activeDirection.y;
+        newSnakeElement.x += activeDirection.x;
+    }
     //
     // update position
     if (this.isRoute('UP')) {
