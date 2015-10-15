@@ -53,30 +53,27 @@ Snake.prototype.update = function () {
     isOutsideY = ((newSnakeElement.y < 0) || (newSnakeElement.y > this.drawer.numberOfCells - 1));
 
     // if newSnakeElement is on itself or outside of scene
-
     for (var i = 0; i < snakeBodyLength ; i++) {
         if ((newSnakeElement.x == this.snakeBody[i].x) && (newSnakeElement.y == this.snakeBody[i].y)
         || (isOutsideX || isOutsideY)) {
-            this.game.setStatus(this.game.STATUS.GAMEOVER);
+            this.score = 0;
             this.game.createMessage("Game over");
             this.updateSnakeArr(newSnakeElement);
+            this.game.setStatus(this.game.STATUS.GAMEOVER);
             return false;
         }
     }
-
     this.updateSnakeArr(newSnakeElement);
 
     if (hasFood) {
         if ((newSnakeElement.x == this.game.food.position.x) && (newSnakeElement.y == this.game.food.position.y)) {
             this.score++;
 
-            // check for win
             isWin = this.addElement();
-            if (isWin) {
+            if (isWin) {                                       // check for win
                 this.game.setStatus(this.game.STATUS.GAMEWIN);
                 this.game.createMessage("win!!!");
             } else {
-                // new food
                 this.game.food.randomGenerate();
             }
         }
@@ -112,7 +109,7 @@ Snake.prototype.addElement = function() {
     this.snakeBody.push(newSnakeElement);
 
     // check on win
-    if (this.snakeBody.length == this.drawer.numberOfCells/5) {
+    if (this.snakeBody.length == this.drawer.numberOfCells/2) {
         return true;
     }
 };

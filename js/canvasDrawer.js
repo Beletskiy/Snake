@@ -6,12 +6,10 @@ function CanvasDrawer () {
     this.ctx = this.canvasField.getContext('2d');
 }
 CanvasDrawer.prototype.drawField = function () {
-    var ctx = this.ctx;
-
     this.canvasField.width = this.cellSize*this.numberOfCells;
     this.canvasField.height = this.cellSize*this.numberOfCells;
-    ctx.strokeStyle = 'green';
-    ctx.strokeRect(0, 0, this.canvasField.width, this.canvasField.height);
+    this.ctx.strokeStyle = 'green';
+    this.ctx.strokeRect(0, 0, this.canvasField.width, this.canvasField.height);
 };
 CanvasDrawer.prototype.drawFood = function (foodPosition) {
     var x = foodPosition.x,

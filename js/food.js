@@ -18,24 +18,23 @@ Food.prototype.randomGenerate = function() {
             x: Math.floor(Math.random() * this.drawer.numberOfCells),
             y: Math.floor(Math.random() * this.drawer.numberOfCells)
         },
-        snakeBodyLength = this.game.snake[0].snakeBody.length;
+        numberOfSnakes = this.game.snake.length,
+        snakeBodyLength = 0;
 
     // ------------------check generate food not on previous position ----------------
     if ((newPos.x == this.position.x) && (newPos.y == this.position.y)) {
         this.randomGenerate();
     }
-    // ------------------ check generate food not on the snake------------------------
-    for (var i = 0; i < snakeBodyLength; i++) {
-        if ((newPos.x == this.game.snake[0].snakeBody[i].x) && (newPos.y == this.game.snake[0].snakeBody[i].y)) {
-            this.randomGenerate();
+    // ------------------ check generate food not on the snakes------------------------
+    for (var i = 0; i < numberOfSnakes; i++) {
+        snakeBodyLength = this.game.snake[i].snakeBody.length;
+        for (var j = 0; j < snakeBodyLength; j++) {
+            if ((newPos.x == this.game.snake[i].snakeBody[j].x) && (newPos.y == this.game.snake[i].snakeBody[j].y)) {
+                this.randomGenerate();
+            }
         }
     }
-    snakeBodyLength = this.game.snake[1].snakeBody.length;
-    for (var i = 0; i < snakeBodyLength; i++) {
-        if ((newPos.x == this.game.snake[1].snakeBody[i].x) && (newPos.y == this.game.snake[1].snakeBody[i].y)) {
-            this.randomGenerate();
-        }
-    }
+
     this.update(newPos);
     this.position.x = newPos.x;
     this.position.y = newPos.y;
