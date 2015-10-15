@@ -20,20 +20,23 @@ CanvasDrawer.prototype.drawFood = function (foodPosition) {
 };
 CanvasDrawer.prototype.drawSnake = function (snakeBody) {//snakeBody - some object "snakeBody"
 
+    // todo read about ctx.save() & ctx.restore()
+
     var headX = snakeBody[0].x,
         headY = snakeBody[0].y,
         snakeLength = snakeBody.length;
 
     this.ctx.fillStyle = 'red';
     this.ctx.fillRect(headX*this.cellSize, headY*this.cellSize, this.cellSize, this.cellSize);
+
+    this.ctx.fillStyle = 'yellow';
     for (var i = 1; i < snakeLength; i++) {
-        this.ctx.fillStyle = 'yellow';
         this.ctx.fillRect(snakeBody[i].x*this.cellSize, snakeBody[i].y*this.cellSize, this.cellSize, this.cellSize);
     }
 };
 CanvasDrawer.prototype.clearField = function() {
     this.ctx.fillStyle = "white";
-    this.ctx.fillRect(0, 0, this.cellSize*this.numberOfCells, this.cellSize*this.numberOfCells);
+    this.ctx.fillRect(0, 0, this.cellSize*this.numberOfCells, this.cellSize*this.numberOfCells);  //clearRect - slower
 };
 CanvasDrawer.prototype.showStatus = function(message , player1Score, player2Score) {
     this.ctx.strokeStyle = "red";

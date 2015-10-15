@@ -19,10 +19,25 @@
         return (event.keyCode == code);
     }
 
+    function isKeyInArray(keys) {
+        var code = null;
+        for (var i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            if (typeof keys[key] !== 'undefined') {
+                code = keys[key];
+            } else {
+                code = key.charCodeAt(0);
+            }
+        }
+        return code;
+    }
+
     window.input = {
         isKey: function(key) {
             return isKey(key.toUpperCase());
+        },
+        isKeyInArray : function (keys) {
+            return isKeyInArray(keys)
         }
-       // isLock: false
     };
 })();
