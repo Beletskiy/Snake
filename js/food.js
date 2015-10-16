@@ -11,12 +11,11 @@ Food.prototype.update = function (newPos) {
     (function () {
         this.position = newPos;
     })();
-    this.drawer.drawFood(this.position);
 };
 Food.prototype.randomGenerate = function() {
     var newPos = {
-            x: Math.floor(Math.random() * this.drawer.numberOfCells),
-            y: Math.floor(Math.random() * this.drawer.numberOfCells)
+            x: Math.floor(Math.random() * this.game.numberOfCells),
+            y: Math.floor(Math.random() * this.game.numberOfCells)
         },
         numberOfSnakes = this.game.snake.length,
         snakeBodyLength = 0;

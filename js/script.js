@@ -1,5 +1,4 @@
 function Game () {
-    this.drawer = new CanvasDrawer();
     this.activeStatus = 0;
     this.STATUS = {
         PLAY: 0,
@@ -8,8 +7,9 @@ function Game () {
         GAMEWIN: 3,
         PAUSE: 4
     };
-
-    this.drawer.drawField();
+    this.numberOfCells = 20;
+    this.drawer = new CanvasDrawer();
+    this.drawer.redrawField(this.numberOfCells);
     this.snake = [];
     this.numberOfSnakes = 2;
     for (var i = 0; i < this.numberOfSnakes; i++) {
@@ -32,20 +32,38 @@ Game.prototype.getStatus = function() {
 
 Game.prototype.update = function() {
     if (this.getStatus() == this.STATUS.PLAY) {
-       // this.drawer.clearField();
-        this.drawer.drawField();
+        this.drawer.redrawField(this.numberOfCells);
         for (var i = 0; i < this.numberOfSnakes; i++) {
             this.snake[i].update();
+            this.drawer.drawSnake(this.snake[i].snakeBody);
+
+            if (!this.snake[i].isAlive) {
+                this.setStatus(this.STATUS.GAMEOVER);
+                this.createMessage("Game over");
+            }   else {
+                this.checkWinning(this.snake[i]);
+            }
+            if (this.snake[i].isFull) {
+                this.food.randomGenerate();
+                this.snake[i].isFull = false;
+            }
         }
         this.food.update();
+        this.drawer.drawFood(this.food.position);
     }
-    for (i = 0; i < this.numberOfSnakes; i++) {
+  /*  for (i = 0; i < this.numberOfSnakes; i++) {
         //if (!this.snake[i].isAlive)){
         //    this.setStatus()
         //}
         this.snake[i].isLock = false;
+    } */
+    // todo redraw all ---------------------------------ready------------------------------------
+};
+Game.prototype.checkWinning = function(snake) {
+    if (snake.snakeBody.length == this.numberOfCells/2) {
+        this.setStatus(this.STATUS.GAMEWIN);
+        this.createMessage("win!!!");
     }
-    // todo redraw all
 };
 Game.prototype.handleInput = function () {
 
@@ -62,11 +80,7 @@ Game.prototype.handleInput = function () {
             this.drawer.showStatus("PAUSE", this.snake[0].score, this.snake[1].score);
         }
 
-        if (!this.snake[1].isLock) {
-
-            if ((input.isKey('UP')) || (input.isKey('DOWN')) || (input.isKey('LEFT')) || (input.isKey('RIGHT'))) {
-                this.snake[1].isLock = true;
-            }
+        if (this.snake[1].isAlive) {
 
             var allowedKeys = [
                 {
@@ -83,16 +97,16 @@ Game.prototype.handleInput = function () {
                 }
             ];
 
-            //for (var j = 0; j < allowedKeys.length; j++) {
-            //    var keysArray = allowedKeys[j];
-            //    //for (var i = 0; i < keysArray.length; i++) {
-            //    //    var key = keysArray[i];
-            //    this.snake[j].setRoute(input.isKeyInArray(keysArray));
-            //    //}
-            //}
+            for (var j = 0; j < allowedKeys.length; j++) {
+                var keysArray = allowedKeys[j];
+                //for (var i = 0; i < keysArray.length; i++) {
+                //    var key = keysArray[i];
+                this.snake[j].setRoute(input.isKeyInArray(keysArray));
+                //}
+            }
 
 
-            if (input.isKey('UP')) {
+     /*       if (input.isKey('UP')) {
                 this.snake[1].setRoute('UP');
             } else if (input.isKey('DOWN')) {
                 this.snake[1].setRoute('DOWN');
@@ -100,14 +114,10 @@ Game.prototype.handleInput = function () {
                 this.snake[1].setRoute('LEFT');
             } else if (input.isKey('RIGHT')) {
                 this.snake[1].setRoute('RIGHT');
-            }
+            }  */
         }
 
-        if (!this.snake[0].isLock) {
-
-            if ((input.isKey('w')) || (input.isKey('s')) || (input.isKey('a')) || (input.isKey('d'))) {
-                this.snake[0].isLock = true;
-            }
+    /*    if (this.snake[0].isAlive) {
 
             if (input.isKey('w')) {
                 this.snake[0].setRoute('UP');
@@ -118,7 +128,7 @@ Game.prototype.handleInput = function () {
             } else if (input.isKey('d')) {
                 this.snake[0].setRoute('RIGHT');
             }
-        }
+        } */
     }
 };
 Game.prototype.createMessage = function (message) {

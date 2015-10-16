@@ -1,30 +1,40 @@
 function Snake(game,xStartOffset) {
     this.game = game;
-    this.drawer = new CanvasDrawer();
-    var defaultPosX = this.drawer.numberOfCells/ 2, //on the center of the field...
-        defaultPosY = this.drawer.numberOfCells/2;
+    var defaultPosX = this.game.numberOfCells/2, //on the center of the field...
+        defaultPosY = this.game.numberOfCells/2;
 
     this.snakeBody = [
         {x: defaultPosX + xStartOffset*2, y: defaultPosY - 1},
         {x: defaultPosX + xStartOffset*2, y: defaultPosY}
     ];
-    this.ROUTE = {
+   /* this.ROUTE = {
         UP: 2,
         DOWN: 0,
         LEFT: 1,
         RIGHT: 3
+    }; */
+
+    this.ROUTE = {
+        UP: 'UP',
+        DOWN: 'DOWN',
+        LEFT: 'LEFT',
+        RIGHT: 'RIGHT'
     };
+
     this.setRoute('UP');
-    this.update(this.snakeBody);
-    this.isAlive = true;
-  //  this.isLock = false; // todo disable this
     this.score = 0;
+    this.isFull = false;
+    this.isAlive = true;
     this.directions = {
         UP : {x : 0, y : -1},
         LEFT : {x : -1, y : 0},
         DOWN : {x : 0, y : 1},
         RIGHT : {x : 1, y : 0}
-    }
+    };
+    this.update(this.snakeBody);
+
+  //  this.isLock = false; // todo disable this ---------------------ready------------------------------
+
 }
 Snake.prototype.setRoute = function (value) {
     if (!value) {
@@ -47,7 +57,8 @@ Snake.prototype.update = function () {
         isOutsideX ,
         isOutsideY ,
         hasFood = this.game.food,
-        isWin = false;
+        activeDirection;
+      //  isWin = false;
 
     //var modes = {
     //    normal : {
@@ -75,7 +86,6 @@ Snake.prototype.update = function () {
     //    RIGHT : {x : 1, y : 0}
     //};
     //
-    var activeDirection;
     ////directions = modes[activeMode]
     if (this.route in this.directions) {
         activeDirection = this.directions[this.route];
@@ -84,7 +94,7 @@ Snake.prototype.update = function () {
     }
     //
     // update position
-    if (this.isRoute('UP')) {
+  /*  if (this.isRoute('UP')) {
         newSnakeElement.y -= 1;
     } else if (this.isRoute('DOWN')) {
         newSnakeElement.y += 1;
@@ -92,20 +102,20 @@ Snake.prototype.update = function () {
         newSnakeElement.x -= 1;
     } else if (this.isRoute('RIGHT')) {
         newSnakeElement.x += 1;
-    }
+    } */
 
-    isOutsideX = ((newSnakeElement.x < 0) || (newSnakeElement.x > this.drawer.numberOfCells -1));
-    isOutsideY = ((newSnakeElement.y < 0) || (newSnakeElement.y > this.drawer.numberOfCells - 1));
+    isOutsideX = ((newSnakeElement.x < 0) || (newSnakeElement.x > this.game.numberOfCells -1));
+    isOutsideY = ((newSnakeElement.y < 0) || (newSnakeElement.y > this.game.numberOfCells - 1));
 
     // if newSnakeElement is on itself or outside of scene
     for (var i = 0; i < snakeBodyLength ; i++) {
         if ((newSnakeElement.x == this.snakeBody[i].x) && (newSnakeElement.y == this.snakeBody[i].y)
         || (isOutsideX || isOutsideY)) {
             this.score = 0;
-            this.game.createMessage("Game over"); // todo remove this
+            //this.game.createMessage("Game over"); // todo remove this ---------ready-----------------
+            this.isAlive = false;
             this.updateSnakeArr(newSnakeElement);
-            // todo self only own status here
-            this.game.setStatus(this.game.STATUS.GAMEOVER);
+            // todo self only own status here            ------------------------ready-----------------
             return false;
         }
     }
@@ -117,15 +127,16 @@ Snake.prototype.update = function () {
     if (hasFood) {
         if ((newSnakeElement.x == this.game.food.position.x) && (newSnakeElement.y == this.game.food.position.y)) {
             this.score++;
-
-            isWin = this.addElement();
+            this.addElement();
+            this.isFull = true;
+         /* isWin = this.addElement();
             if (isWin) {                                       // check for win
                 this.game.setStatus(this.game.STATUS.GAMEWIN);
                 this.game.createMessage("win!!!");
             } else {
-                // todo move this to Game
+                // todo move this to Game ---------------------------------ready-----------------------------
                 this.game.food.randomGenerate();
-            }
+            } */
         }
     }
 };
@@ -133,7 +144,7 @@ Snake.prototype.update = function () {
 Snake.prototype.updateSnakeArr = function (newSnakeElement) {
     this.snakeBody.pop();
     this.snakeBody.unshift(newSnakeElement);
-    this.drawer.drawSnake(this.snakeBody); // todo remove this
+    //this.drawer.drawSnake(this.snakeBody); // todo remove this ---------------------ready------------------------
 };
 
 Snake.prototype.addElement = function() {
@@ -158,8 +169,4 @@ Snake.prototype.addElement = function() {
 
     this.snakeBody.push(newSnakeElement);
 
-    // check on win
-    if (this.snakeBody.length == this.drawer.numberOfCells/2) {
-        return true;
-    }
 };

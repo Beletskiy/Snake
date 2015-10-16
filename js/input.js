@@ -34,6 +34,7 @@
 
     window.input = {
         isKey: function(key) {
+            console.log(key);
             return isKey(key.toUpperCase());
         },
         isKeyInArray : function (keys) {

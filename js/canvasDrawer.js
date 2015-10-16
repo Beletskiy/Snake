@@ -1,11 +1,12 @@
 /*--------------------------------------------------CanvasDrawer-------------------------------------------*/
 function CanvasDrawer () {
     this.cellSize = 20;
-    this.numberOfCells = 20;
+    //this.numberOfCells = 20;
     this.canvasField = document.getElementById("canvasGameField");
     this.ctx = this.canvasField.getContext('2d');
 }
-CanvasDrawer.prototype.drawField = function () {
+CanvasDrawer.prototype.redrawField = function (numberOfCells) {
+    this.numberOfCells = numberOfCells;
     this.ctx.fillStyle = "white";
     this.ctx.fillRect(0, 0, this.cellSize*this.numberOfCells, this.cellSize*this.numberOfCells);
 
