@@ -102,9 +102,9 @@ Game.prototype.handleInput = function () {
                 //for (var i = 0; i < keysArray.length; i++) {
                 //    var key = keysArray[i];
                 this.snake[j].setRoute(input.isKeyInArray(keysArray));
+                return false;
                 //}
             }
-
 
      /*       if (input.isKey('UP')) {
                 this.snake[1].setRoute('UP');
