@@ -80,7 +80,7 @@ Game.prototype.handleInput = function () {
             this.drawer.showStatus("PAUSE", this.snake[0].score, this.snake[1].score);
         }
 
-        if (this.snake[1].isAlive) {
+    //    if (this.snake[1].isAlive) {
 
             var allowedKeys = [
                 {
@@ -102,8 +102,6 @@ Game.prototype.handleInput = function () {
                 //for (var i = 0; i < keysArray.length; i++) {
                 //    var key = keysArray[i];
                 this.snake[j].setRoute(input.isKeyInArray(keysArray));
-                return false;
-                //}
             }
 
      /*       if (input.isKey('UP')) {
@@ -115,7 +113,7 @@ Game.prototype.handleInput = function () {
             } else if (input.isKey('RIGHT')) {
                 this.snake[1].setRoute('RIGHT');
             }  */
-        }
+     //   }
 
     /*    if (this.snake[0].isAlive) {
 
