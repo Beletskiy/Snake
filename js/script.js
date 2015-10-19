@@ -39,7 +39,7 @@ Game.prototype.update = function() {
 
             if (!this.snake[i].isAlive) {
                 this.setStatus(this.STATUS.GAMEOVER);
-                this.createMessage("Game over");
+                this.drawer.showStatus("Game over", this.snake[0].score, this.snake[1].score);
             }   else {
                 this.checkWinning(this.snake[i]);
             }
@@ -48,24 +48,34 @@ Game.prototype.update = function() {
                 this.snake[i].isFull = false;
             }
         }
+        this.checkSnakesCollision();
         this.food.update();
         this.drawer.drawFood(this.food.position);
     }
-  /*  for (i = 0; i < this.numberOfSnakes; i++) {
-        //if (!this.snake[i].isAlive)){
-        //    this.setStatus()
-        //}
-        this.snake[i].isLock = false;
-    } */
     // todo redraw all ---------------------------------ready------------------------------------
 };
 Game.prototype.checkWinning = function(snake) {
     if (snake.snakeBody.length == this.numberOfCells/2) {
         this.setStatus(this.STATUS.GAMEWIN);
-        this.createMessage("win!!!");
+        this.createMessage();
     }
 };
 Game.prototype.handleInput = function () {
+
+    var allowedKeys = [
+        {
+            'UP' : 'w',
+            'DOWN' : 's',
+            'LEFT' : 'a',
+            'RIGHT' : 'd'
+        },
+        {
+            'UP' : 'UP',
+            'DOWN' : 'DOWN',
+            'LEFT' : 'LEFT',
+            'RIGHT' : 'RIGHT'
+        }
+    ];
 
     if (this.getStatus() == this.STATUS.PAUSE) {
         if (input.isKey('SPACE')) {
@@ -79,84 +89,43 @@ Game.prototype.handleInput = function () {
             this.setStatus(this.STATUS.PAUSE);
             this.drawer.showStatus("PAUSE", this.snake[0].score, this.snake[1].score);
         }
-
-    //    if (this.snake[1].isAlive) {
-
-            var allowedKeys = [
-                {
-                    'UP' : 'w',
-                    'DOWN' : 's',
-                    'LEFT' : 'a',
-                    'RIGHT' : 'd'
-                },
-                {
-                    'UP' : 'UP',
-                    'DOWN' : 'DOWN',
-                    'LEFT' : 'LEFT',
-                    'RIGHT' : 'RIGHT'
-                }
-            ];
-
-            for (var j = 0; j < allowedKeys.length; j++) {
-                var keysArray = allowedKeys[j];
-                //for (var i = 0; i < keysArray.length; i++) {
-                //    var key = keysArray[i];
-                this.snake[j].setRoute(input.isKeyInArray(keysArray));
-            }
-
-     /*       if (input.isKey('UP')) {
-                this.snake[1].setRoute('UP');
-            } else if (input.isKey('DOWN')) {
-                this.snake[1].setRoute('DOWN');
-            } else if (input.isKey('LEFT')) {
-                this.snake[1].setRoute('LEFT');
-            } else if (input.isKey('RIGHT')) {
-                this.snake[1].setRoute('RIGHT');
-            }  */
-     //   }
-
-    /*    if (this.snake[0].isAlive) {
-
-            if (input.isKey('w')) {
-                this.snake[0].setRoute('UP');
-            } else if (input.isKey('s')) {
-                this.snake[0].setRoute('DOWN');
-            } else if (input.isKey('a')) {
-                this.snake[0].setRoute('LEFT');
-            } else if (input.isKey('d')) {
-                this.snake[0].setRoute('RIGHT');
-            }
-        } */
+        for (var j = 0; j < allowedKeys.length; j++) {
+            var keysArray = allowedKeys[j];
+            this.snake[j].setRoute(input.isKeyInArray(keysArray));
+        }
     }
 };
-Game.prototype.createMessage = function (message) {
-    if (message == 'Game over') {
-        this.drawer.showStatus(message, this.snake[0].score, this.snake[1].score);
+Game.prototype.createMessage = function () {
+    var winnerIndex ;
+    if (this.snake[0].score == this.snake[1].score) {
+        this.drawer.showStatus("Game over", this.snake[0].score, this.snake[1].score);
         return false;
     }
-
-    var winnerIndex = (this.snake[0].score > this.snake[1].score) ? 0 : 1,
-        winner = this.snake[winnerIndex];
-        //message = this.messages[winnerIndex]
-
-    // todo read about array.map, array.reduce
-
-
-    this.drawer.showStatus("Player1 win!", this.snake[0].score, this.snake[1].score);
-
-    if (this.snake[0].score > this.snake[1].score) {
-        this.drawer.showStatus("Player1 win!", this.snake[0].score, this.snake[1].score);
-    }
-    if (this.snake[0].score < this.snake[1].score) {
-        this.drawer.showStatus("Player2 win!", this.snake[0].score, this.snake[1].score);
-    }
+    winnerIndex = (this.snake[0].score > this.snake[1].score) ? 0 : 1;
+    // todo read about array.map, array.reduce ---------------------ready---------------------
+    this.drawer.showStatus("Player" + (winnerIndex+1) + " win!", this.snake[0].score, this.snake[1].score);
 };
 
-/*Game.prototype.checkSnakesCollision = function () {
+Game.prototype.checkSnakesCollision = function () {
     for (var i = 0; i < this.numberOfSnakes; i++) {
-        if (this.snake[i].snakeBody[0].x =
+        for (var j = 0; j < this.numberOfSnakes; j++) {
+            if (i !== j) {
+                for (var k = 0; k < this.snake[j].snakeBody.length; k++) {
+                    if ((this.snake[i].snakeBody[0].x == this.snake[j].snakeBody[k].x) &&
+                        (this.snake[i].snakeBody[0].y == this.snake[j].snakeBody[k].y)) {
+                        this.snake[i].score = 0;
+                        this.snake[i].isAlive = false;
+                        this.snake[j].isAlive = false;
+                        this.setStatus(this.STATUS.GAMEOVER);
+                        this.createMessage();
+                    }
+                }
+
+            }
+        }
+
     }
-}; */
+};
 
 var game = new Game();
 // -----------------------------main game loop ----------------------------

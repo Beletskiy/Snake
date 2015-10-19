@@ -1,7 +1,6 @@
 /*--------------------------------------------------CanvasDrawer-------------------------------------------*/
 function CanvasDrawer () {
     this.cellSize = 20;
-    //this.numberOfCells = 20;
     this.canvasField = document.getElementById("canvasGameField");
     this.ctx = this.canvasField.getContext('2d');
 }
@@ -38,11 +37,11 @@ CanvasDrawer.prototype.drawSnake = function (snakeBody) {//snakeBody - some obje
         this.ctx.fillRect(snakeBody[i].x*this.cellSize, snakeBody[i].y*this.cellSize, this.cellSize, this.cellSize);
     }
 };
-/*CanvasDrawer.prototype.clearField = function() {
-    this.ctx.fillStyle = "white";
-    this.ctx.fillRect(0, 0, this.cellSize*this.numberOfCells, this.cellSize*this.numberOfCells);  //clearRect - slower
-}; */
+
 CanvasDrawer.prototype.showStatus = function(message , player1Score, player2Score) {
+    this.ctx.fillStyle = "white";
+    this.ctx.fillRect(this.canvasField.width/3, this.cellSize/2, this.cellSize*12, this.cellSize*7);
+
     this.ctx.strokeStyle = "red";
     this.ctx.font = "30px Arial";
     this.ctx.strokeText(message, this.canvasField.width/3, this.canvasField.width/10);

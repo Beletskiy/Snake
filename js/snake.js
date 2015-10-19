@@ -32,9 +32,6 @@ function Snake(game,xStartOffset) {
         RIGHT : {x : 1, y : 0}
     };
     this.update(this.snakeBody);
-
-  //  this.isLock = false; // todo disable this ---------------------ready------------------------------
-
 }
 Snake.prototype.setRoute = function (value) {
     if (!value) {
@@ -42,10 +39,6 @@ Snake.prototype.setRoute = function (value) {
         return false;
     }
     this.route = this.ROUTE[value];
-};
-
-Snake.prototype.isRoute = function(value) {
-    return this.route == this.ROUTE[value];
 };
 
 Snake.prototype.update = function () {
@@ -58,8 +51,6 @@ Snake.prototype.update = function () {
         isOutsideY ,
         hasFood = this.game.food,
         activeDirection;
-      //  isWin = false;
-
     //var modes = {
     //    normal : {
     //        directions : {
@@ -78,32 +69,13 @@ Snake.prototype.update = function () {
     //        };
     //    }
     //}
-
-    //var directions = {
-    //    UP : {x : 0, y : -1},
-    //    LEFT : {x : -1, y : 0},
-    //    DOWN : {x : 0, y : 1},
-    //    RIGHT : {x : 1, y : 0}
-    //};
-    //
     ////directions = modes[activeMode]
     if (this.route in this.directions) {
         activeDirection = this.directions[this.route];
         newSnakeElement.y += activeDirection.y;
         newSnakeElement.x += activeDirection.x;
     }
-    //
     // update position
-  /*  if (this.isRoute('UP')) {
-        newSnakeElement.y -= 1;
-    } else if (this.isRoute('DOWN')) {
-        newSnakeElement.y += 1;
-    } else if (this.isRoute('LEFT')) {
-        newSnakeElement.x -= 1;
-    } else if (this.isRoute('RIGHT')) {
-        newSnakeElement.x += 1;
-    } */
-
     isOutsideX = ((newSnakeElement.x < 0) || (newSnakeElement.x > this.game.numberOfCells -1));
     isOutsideY = ((newSnakeElement.y < 0) || (newSnakeElement.y > this.game.numberOfCells - 1));
 
@@ -112,16 +84,12 @@ Snake.prototype.update = function () {
         if ((newSnakeElement.x == this.snakeBody[i].x) && (newSnakeElement.y == this.snakeBody[i].y)
         || (isOutsideX || isOutsideY)) {
             this.score = 0;
-            //this.game.createMessage("Game over"); // todo remove this ---------ready-----------------
             this.isAlive = false;
             this.updateSnakeArr(newSnakeElement);
             // todo self only own status here            ------------------------ready-----------------
             return false;
         }
     }
-    // check snake collision ...
-   /* this.game.checkSnakesCollision(); */
-
     this.updateSnakeArr(newSnakeElement);
 
     if (hasFood) {
@@ -129,14 +97,6 @@ Snake.prototype.update = function () {
             this.score++;
             this.addElement();
             this.isFull = true;
-         /* isWin = this.addElement();
-            if (isWin) {                                       // check for win
-                this.game.setStatus(this.game.STATUS.GAMEWIN);
-                this.game.createMessage("win!!!");
-            } else {
-                // todo move this to Game ---------------------------------ready-----------------------------
-                this.game.food.randomGenerate();
-            } */
         }
     }
 };

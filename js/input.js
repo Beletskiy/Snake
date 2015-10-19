@@ -1,5 +1,5 @@
 (function() {
-    var keys1 = {
+    var specialKeys = {
         SHIFT: 16,
         CTRL: 17,
         SPACE: 32,
@@ -11,38 +11,19 @@
 
     function isKey(key) {
         var code;
-        if (typeof keys1[key] !== 'undefined') {
-            code = keys1[key];
+        if (typeof specialKeys[key] !== 'undefined') {
+            code = specialKeys[key];
         } else {
             code = key.charCodeAt(0);
         }
         return (event.keyCode == code);
     }
 
-   /* function isKeyInArray(keys) {
-        var code = null;
-        for (var i = 0; i < Object.getOwnPropertyNames(keys).length ; i++) {
-          //  var key = keys[i];
-            var key = Object.getOwnPropertyNames(keys)[i];
-            //console.log(key);
-            if (typeof keys[key] !== 'undefined') {
-                code = keys[key];
-                console.log(code);
-            } else {
-                code = key.charCodeAt(0);
-                console.log(code);
-            }
-        }
-        if (event.keyCode == code) {
-            return code;
-        }
-    } */
-
     function isKeyInArray(keys) {
         for (var i = 0; i < Object.getOwnPropertyNames(keys).length ; i++) {
             var key = Object.getOwnPropertyNames(keys)[i];
 
-            if ((keys[key] in keys1) && (event.keyCode == keys1[key])) {
+            if ((keys[key] in specialKeys) && (event.keyCode == specialKeys[key])) {
                 return key;
             } else  {
                 for (var j in keys) {
@@ -60,7 +41,6 @@
             return isKey(key.toUpperCase());
         },
         isKeyInArray : function (keys) {
-           // console.log(isKeyInArray(keys));
             return isKeyInArray(keys);
         }
     };

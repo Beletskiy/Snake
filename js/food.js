@@ -33,7 +33,6 @@ Food.prototype.randomGenerate = function() {
             }
         }
     }
-
     this.update(newPos);
     this.position.x = newPos.x;
     this.position.y = newPos.y;
