@@ -117,15 +117,8 @@ Snake.prototype.addElement = function() {
         xDiff = this.snakeBody[lastIndex].x - this.snakeBody[lastIndex - 1].x,
         yDiff = this.snakeBody[lastIndex].y - this.snakeBody[lastIndex - 1].y;
 
-    if (xDiff > 0) {
-        newSnakeElement.x += 1;
-    } else if (xDiff < 0) {
-        newSnakeElement.x -= 1;
-    } else if (yDiff > 0) {
-        newSnakeElement.y += 1;
-    } else if (yDiff < 0) {
-        newSnakeElement.y -= 1;
-    }
+    newSnakeElement.x += xDiff;
+    newSnakeElement.y += yDiff;
 
     this.snakeBody.push(newSnakeElement);
 

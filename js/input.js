@@ -35,7 +35,6 @@
             }
         }
     }
-
     window.input = {
         isKey: function(key) {
             return isKey(key.toUpperCase());

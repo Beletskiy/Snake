@@ -46,6 +46,7 @@ Game.prototype.update = function() {
             if (this.snake[i].isFull) {
                 this.food.randomGenerate();
                 this.snake[i].isFull = false;
+             // this.startInterval = this.startInterval/2;
             }
         }
         this.checkSnakesCollision();
@@ -113,24 +114,22 @@ Game.prototype.checkSnakesCollision = function () {
                 for (var k = 0; k < this.snake[j].snakeBody.length; k++) {
                     if ((this.snake[i].snakeBody[0].x == this.snake[j].snakeBody[k].x) &&
                         (this.snake[i].snakeBody[0].y == this.snake[j].snakeBody[k].y)) {
-                        this.snake[i].score = 0;
-                        this.snake[i].isAlive = false;
-                        this.snake[j].isAlive = false;
-                        this.setStatus(this.STATUS.GAMEOVER);
-                        this.createMessage();
+                            this.snake[i].score = 0;
+                            this.snake[i].isAlive = false;
+                            this.snake[j].isAlive = false;
+                            this.setStatus(this.STATUS.GAMEOVER);
+                            this.createMessage();
                     }
                 }
-
             }
         }
-
     }
 };
 
 var game = new Game();
 // -----------------------------main game loop ----------------------------
-function start(interval) {
-    setInterval(main, interval);
+function start(startInterval) {
+    setInterval(main, startInterval);
 }
 
 function main() {
@@ -140,7 +139,6 @@ function main() {
 document.addEventListener('keydown', function(e) {
     game.handleInput(e);
 });
-
 start(500);
 
 
