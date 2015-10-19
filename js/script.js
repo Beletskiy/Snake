@@ -39,14 +39,14 @@ Game.prototype.update = function() {
 
             if (!this.snake[i].isAlive) {
                 this.setStatus(this.STATUS.GAMEOVER);
-                this.drawer.showStatus("Game over", this.snake[0].score, this.snake[1].score);
+                this.createMessage();
             }   else {
                 this.checkWinning(this.snake[i]);
             }
             if (this.snake[i].isFull) {
                 this.food.randomGenerate();
                 this.snake[i].isFull = false;
-             // this.startInterval = this.startInterval/2;
+                interval = interval/1.2;
             }
         }
         this.checkSnakesCollision();
@@ -127,18 +127,24 @@ Game.prototype.checkSnakesCollision = function () {
 };
 
 var game = new Game();
+var interval = 500;
 // -----------------------------main game loop ----------------------------
-function start(startInterval) {
+
+/*function start(startInterval) {
     setInterval(main, startInterval);
+} */
+function start (startInterval) {
+    setTimeout(main,startInterval);
 }
 
 function main() {
     game.update();
+    setTimeout(main,interval);
 }
 
 document.addEventListener('keydown', function(e) {
     game.handleInput(e);
 });
-start(500);
+start(1000);
 
 

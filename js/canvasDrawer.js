@@ -23,7 +23,7 @@ CanvasDrawer.prototype.drawFood = function (foodPosition) {
 };
 CanvasDrawer.prototype.drawSnake = function (snakeBody) {//snakeBody - some object "snakeBody"
 
-    // todo read about ctx.save() & ctx.restore()
+    // todo read about ctx.save() & ctx.restore()  -------------ready-----------
 
     var headX = snakeBody[0].x,
         headY = snakeBody[0].y,
